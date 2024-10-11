@@ -25,9 +25,13 @@ max_mask_ratio: 0.5
 max_dim: 128
 loss_func:
   _target_: uni2ts.loss.packed.PackedNLLLoss
+val_metric:
+  - _target_: uni2ts.loss.packed.PackedMAPELoss
+  - _target_: uni2ts.loss.packed.PackedMSELoss
 lr: 1e-3
 weight_decay: 1e-1
 beta1: 0.9
 beta2: 0.98
+#num_training_steps: ${trainer.max_epochs}
 num_training_steps: ${mul:${trainer.max_epochs},${train_dataloader.num_batches_per_epoch}}
 num_warmup_steps: 0

@@ -108,11 +108,13 @@ class DataModule(L.LightningDataModule):
         )
 
     @property
-    def train_num_batches_per_epoch(self) -> int:
-        return (
-            self.cfg.train_dataloader.num_batches_per_epoch
-            * self.trainer.accumulate_grad_batches
-        )
+    def train_num_batches_per_epoch(self) -> int | None:
+        if self.cfg.train_dataloader.num_batches_per_epoch:
+            return (
+                self.cfg.train_dataloader.num_batches_per_epoch
+                * self.trainer.accumulate_grad_batches
+            )
+        return None
 
 
 @hydra.main(version_base="1.3", config_name="default.yaml")

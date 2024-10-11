@@ -15,7 +15,7 @@ trainer:
   _target_: lightning.Trainer
   accelerator: auto
   strategy: auto
-  devices: auto
+  devices: [0]
   num_nodes: 1
   precision: 32
   logger:
@@ -27,13 +27,13 @@ trainer:
       logging_interval: epoch
     - _target_: lightning.pytorch.callbacks.ModelCheckpoint
       dirpath: ${hydra:runtime.output_dir}/checkpoints
-      monitor: val/PackedNLLLoss
+      monitor: val/PackedMAPELoss
       save_weights_only: true
       mode: min
       save_top_k: 1
       every_n_epochs: 1
     - _target_: lightning.pytorch.callbacks.EarlyStopping
-      monitor: val/PackedNLLLoss
+      monitor: val/PackedMAPELoss
       min_delta: 0.0
       patience: 3
       mode: min
@@ -46,8 +46,8 @@ trainer:
   gradient_clip_algorithm: norm
 train_dataloader:
   _target_: uni2ts.data.loader.DataLoader
-  batch_size: 128
-  batch_size_factor: 2.0
+  batch_size: 16
+  batch_size_factor: 1.0
   cycle: true
   num_batches_per_epoch: 100
   shuffle: true
@@ -58,15 +58,15 @@ train_dataloader:
     seq_fields: ${cls_getattr:${model._target_},seq_fields}
     pad_func_map: ${cls_getattr:${model._target_},pad_func_map}
   pin_memory: true
-  drop_last: false
+  drop_last: true
   fill_last: false
   worker_init_fn: null
   prefetch_factor: 2
   persistent_workers: true
 val_dataloader:
   _target_: uni2ts.data.loader.DataLoader
-  batch_size: 128
-  batch_size_factor: 2.0
+  batch_size: 16
+  batch_size_factor: 1.0
   cycle: false
   num_batches_per_epoch: null
   shuffle: false
@@ -77,7 +77,7 @@ val_dataloader:
     seq_fields: ${cls_getattr:${model._target_},seq_fields}
     pad_func_map: ${cls_getattr:${model._target_},pad_func_map}
   pin_memory: false
-  drop_last: false
+  drop_last: true
   fill_last: true
   worker_init_fn: null
   prefetch_factor: 2
