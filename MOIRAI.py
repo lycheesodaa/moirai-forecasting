@@ -23,7 +23,7 @@ parser.add_argument('--run_name', type=str)
 args = parser.parse_args()
 
 SIZE = "large"  # model size: choose from {'small', 'base', 'large'}
-PDT_LIST = [24, 36, 48, 60]  # prediction length: any positive integer
+PDT_LIST = [1, 12, 24, 36, 48, 60, 72]  # prediction length: any positive integer
 CTX = 512  # context length: any positive integer
 PSZ = "auto"  # patch size: choose from {"auto", 8, 16, 32, 64, 128}
 BSZ = 16  # batch size: any positive integer

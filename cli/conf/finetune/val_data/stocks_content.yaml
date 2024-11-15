@@ -1,0 +1,261 @@
+_target_: uni2ts.data.builder.ConcatDatasetBuilder
+_args_:
+  - _target_: uni2ts.data.builder.simple.generate_eval_builders
+    dataset: Stocks_${run_name}_eval/CVX
+    offset: 1153
+    eval_length: 385
+    prediction_lengths: [1, 3, 7, 14, 30]
+    context_lengths: [512]
+    patch_sizes: [16, 32]
+  - _target_: uni2ts.data.builder.simple.generate_eval_builders
+    dataset: Stocks_${run_name}_eval/AMAT
+    offset: 2140
+    eval_length: 713
+    prediction_lengths: [1, 3, 7, 14, 30]
+    context_lengths: [512]
+    patch_sizes: [16, 32]
+  - _target_: uni2ts.data.builder.simple.generate_eval_builders
+    dataset: Stocks_${run_name}_eval/ORCL
+    offset: 2202
+    eval_length: 734
+    prediction_lengths: [1, 3, 7, 14, 30]
+    context_lengths: [512]
+    patch_sizes: [16, 32]
+  - _target_: uni2ts.data.builder.simple.generate_eval_builders
+    dataset: Stocks_${run_name}_eval/ABBV
+    offset: 1714
+    eval_length: 571
+    prediction_lengths: [1, 3, 7, 14, 30]
+    context_lengths: [512]
+    patch_sizes: [16, 32]
+  - _target_: uni2ts.data.builder.simple.generate_eval_builders
+    dataset: Stocks_${run_name}_eval/NOW
+    offset: 1794
+    eval_length: 598
+    prediction_lengths: [1, 3, 7, 14, 30]
+    context_lengths: [512]
+    patch_sizes: [16, 32]
+  - _target_: uni2ts.data.builder.simple.generate_eval_builders
+    dataset: Stocks_${run_name}_eval/CAT
+    offset: 2209
+    eval_length: 737
+    prediction_lengths: [1, 3, 7, 14, 30]
+    context_lengths: [512]
+    patch_sizes: [16, 32]
+  - _target_: uni2ts.data.builder.simple.generate_eval_builders
+    dataset: Stocks_${run_name}_eval/GOOG
+    offset: 760
+    eval_length: 254
+    prediction_lengths: [1, 3, 7, 14, 30]
+    context_lengths: [512]
+    patch_sizes: [16, 32]
+  - _target_: uni2ts.data.builder.simple.generate_eval_builders
+    dataset: Stocks_${run_name}_eval/TMO
+    offset: 2145
+    eval_length: 715
+    prediction_lengths: [1, 3, 7, 14, 30]
+    context_lengths: [512]
+    patch_sizes: [16, 32]
+  - _target_: uni2ts.data.builder.simple.generate_eval_builders
+    dataset: Stocks_${run_name}_eval/AMGN
+    offset: 2168
+    eval_length: 723
+    prediction_lengths: [1, 3, 7, 14, 30]
+    context_lengths: [512]
+    patch_sizes: [16, 32]
+  - _target_: uni2ts.data.builder.simple.generate_eval_builders
+    dataset: Stocks_${run_name}_eval/BX
+    offset: 2163
+    eval_length: 721
+    prediction_lengths: [1, 3, 7, 14, 30]
+    context_lengths: [512]
+    patch_sizes: [16, 32]
+  - _target_: uni2ts.data.builder.simple.generate_eval_builders
+    dataset: Stocks_${run_name}_eval/GS
+    offset: 1236
+    eval_length: 412
+    prediction_lengths: [1, 3, 7, 14, 30]
+    context_lengths: [512]
+    patch_sizes: [16, 32]
+  - _target_: uni2ts.data.builder.simple.generate_eval_builders
+    dataset: Stocks_${run_name}_eval/WFC
+    offset: 1269
+    eval_length: 423
+    prediction_lengths: [1, 3, 7, 14, 30]
+    context_lengths: [512]
+    patch_sizes: [16, 32]
+  - _target_: uni2ts.data.builder.simple.generate_eval_builders
+    dataset: Stocks_${run_name}_eval/AMD
+    offset: 1103
+    eval_length: 368
+    prediction_lengths: [1, 3, 7, 14, 30]
+    context_lengths: [512]
+    patch_sizes: [16, 32]
+  - _target_: uni2ts.data.builder.simple.generate_eval_builders
+    dataset: Stocks_${run_name}_eval/UNP
+    offset: 2210
+    eval_length: 737
+    prediction_lengths: [1, 3, 7, 14, 30]
+    context_lengths: [512]
+    patch_sizes: [16, 32]
+  - _target_: uni2ts.data.builder.simple.generate_eval_builders
+    dataset: Stocks_${run_name}_eval/NKE
+    offset: 2202
+    eval_length: 734
+    prediction_lengths: [1, 3, 7, 14, 30]
+    context_lengths: [512]
+    patch_sizes: [16, 32]
+  - _target_: uni2ts.data.builder.simple.generate_eval_builders
+    dataset: Stocks_${run_name}_eval/V
+    offset: 2140
+    eval_length: 713
+    prediction_lengths: [1, 3, 7, 14, 30]
+    context_lengths: [512]
+    patch_sizes: [16, 32]
+  - _target_: uni2ts.data.builder.simple.generate_eval_builders
+    dataset: Stocks_${run_name}_eval/BKNG
+    offset: 908
+    eval_length: 303
+    prediction_lengths: [1, 3, 7, 14, 30]
+    context_lengths: [512]
+    patch_sizes: [16, 32]
+  - _target_: uni2ts.data.builder.simple.generate_eval_builders
+    dataset: Stocks_${run_name}_eval/GE
+    offset: 1824
+    eval_length: 608
+    prediction_lengths: [1, 3, 7, 14, 30]
+    context_lengths: [512]
+    patch_sizes: [16, 32]
+  - _target_: uni2ts.data.builder.simple.generate_eval_builders
+    dataset: Stocks_${run_name}_eval/MRK
+    offset: 2209
+    eval_length: 737
+    prediction_lengths: [1, 3, 7, 14, 30]
+    context_lengths: [512]
+    patch_sizes: [16, 32]
+  - _target_: uni2ts.data.builder.simple.generate_eval_builders
+    dataset: Stocks_${run_name}_eval/MU
+    offset: 1699
+    eval_length: 566
+    prediction_lengths: [1, 3, 7, 14, 30]
+    context_lengths: [512]
+    patch_sizes: [16, 32]
+  - _target_: uni2ts.data.builder.simple.generate_eval_builders
+    dataset: Stocks_${run_name}_eval/DHR
+    offset: 2254
+    eval_length: 752
+    prediction_lengths: [1, 3, 7, 14, 30]
+    context_lengths: [512]
+    patch_sizes: [16, 32]
+  - _target_: uni2ts.data.builder.simple.generate_eval_builders
+    dataset: Stocks_${run_name}_eval/CRM
+    offset: 2193
+    eval_length: 731
+    prediction_lengths: [1, 3, 7, 14, 30]
+    context_lengths: [512]
+    patch_sizes: [16, 32]
+  - _target_: uni2ts.data.builder.simple.generate_eval_builders
+    dataset: Stocks_${run_name}_eval/WMT
+    offset: 789
+    eval_length: 263
+    prediction_lengths: [1, 3, 7, 14, 30]
+    context_lengths: [512]
+    patch_sizes: [16, 32]
+  - _target_: uni2ts.data.builder.simple.generate_eval_builders
+    dataset: Stocks_${run_name}_eval/KO
+    offset: 2218
+    eval_length: 740
+    prediction_lengths: [1, 3, 7, 14, 30]
+    context_lengths: [512]
+    patch_sizes: [16, 32]
+  - _target_: uni2ts.data.builder.simple.generate_eval_builders
+    dataset: Stocks_${run_name}_eval/TXN
+    offset: 2194
+    eval_length: 732
+    prediction_lengths: [1, 3, 7, 14, 30]
+    context_lengths: [512]
+    patch_sizes: [16, 32]
+  - _target_: uni2ts.data.builder.simple.generate_eval_builders
+    dataset: Stocks_${run_name}_eval/DIS
+    offset: 706
+    eval_length: 235
+    prediction_lengths: [1, 3, 7, 14, 30]
+    context_lengths: [512]
+    patch_sizes: [16, 32]
+  - _target_: uni2ts.data.builder.simple.generate_eval_builders
+    dataset: Stocks_${run_name}_eval/MS
+    offset: 1444
+    eval_length: 481
+    prediction_lengths: [1, 3, 7, 14, 30]
+    context_lengths: [512]
+    patch_sizes: [16, 32]
+  - _target_: uni2ts.data.builder.simple.generate_eval_builders
+    dataset: Stocks_${run_name}_eval/PEP
+    offset: 2207
+    eval_length: 736
+    prediction_lengths: [1, 3, 7, 14, 30]
+    context_lengths: [512]
+    patch_sizes: [16, 32]
+  - _target_: uni2ts.data.builder.simple.generate_eval_builders
+    dataset: Stocks_${run_name}_eval/ACN
+    offset: 2198
+    eval_length: 733
+    prediction_lengths: [1, 3, 7, 14, 30]
+    context_lengths: [512]
+    patch_sizes: [16, 32]
+  - _target_: uni2ts.data.builder.simple.generate_eval_builders
+    dataset: Stocks_${run_name}_eval/TMUS
+    offset: 1663
+    eval_length: 555
+    prediction_lengths: [1, 3, 7, 14, 30]
+    context_lengths: [512]
+    patch_sizes: [16, 32]
+  - _target_: uni2ts.data.builder.simple.generate_eval_builders
+    dataset: Stocks_${run_name}_eval/COST
+    offset: 2164
+    eval_length: 722
+    prediction_lengths: [1, 3, 7, 14, 30]
+    context_lengths: [512]
+    patch_sizes: [16, 32]
+  - _target_: uni2ts.data.builder.simple.generate_eval_builders
+    dataset: Stocks_${run_name}_eval/ABT
+    offset: 2209
+    eval_length: 737
+    prediction_lengths: [1, 3, 7, 14, 30]
+    context_lengths: [512]
+    patch_sizes: [16, 32]
+  - _target_: uni2ts.data.builder.simple.generate_eval_builders
+    dataset: Stocks_${run_name}_eval/NEE
+    offset: 2097
+    eval_length: 699
+    prediction_lengths: [1, 3, 7, 14, 30]
+    context_lengths: [512]
+    patch_sizes: [16, 32]
+  - _target_: uni2ts.data.builder.simple.generate_eval_builders
+    dataset: Stocks_${run_name}_eval/ADBE
+    offset: 2191
+    eval_length: 730
+    prediction_lengths: [1, 3, 7, 14, 30]
+    context_lengths: [512]
+    patch_sizes: [16, 32]
+  - _target_: uni2ts.data.builder.simple.generate_eval_builders
+    dataset: Stocks_${run_name}_eval/CMCSA
+    offset: 2204
+    eval_length: 735
+    prediction_lengths: [1, 3, 7, 14, 30]
+    context_lengths: [512]
+    patch_sizes: [16, 32]
+  - _target_: uni2ts.data.builder.simple.generate_eval_builders
+    dataset: Stocks_${run_name}_eval/PM
+    offset: 1662
+    eval_length: 554
+    prediction_lengths: [1, 3, 7, 14, 30]
+    context_lengths: [512]
+    patch_sizes: [16, 32]
+  - _target_: uni2ts.data.builder.simple.generate_eval_builders
+    dataset: Stocks_${run_name}_eval/QCOM
+    offset: 2172
+    eval_length: 724
+    prediction_lengths: [1, 3, 7, 14, 30]
+    context_lengths: [512]
+    patch_sizes: [16, 32]

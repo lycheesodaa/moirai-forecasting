@@ -58,6 +58,8 @@ class ConcatDatasetBuilder(DatasetBuilder):
         """
         super().__init__()
         assert len(builders) > 0, "Must provide at least one builder to ConcatBuilder"
+        if isinstance(builders[0], list):
+            builders = self._flatten_builders(builders)
         assert all(
             isinstance(builder, DatasetBuilder) for builder in builders
         ), "All builders must be instances of DatasetBuilder"
@@ -80,3 +82,18 @@ class ConcatDatasetBuilder(DatasetBuilder):
         return ConcatDataset(
             [builder.load_dataset(transform_map) for builder in self.builders]
         )
+
+    def _flatten_builders(self, builders) -> list:
+        """
+        Recursively flatten nested lists of builders.
+
+        :param builders: Potentially nested list of DatasetBuilders
+        :return: Flattened list of DatasetBuilders
+        """
+        flat_list = []
+        for item in builders:
+            if isinstance(item, list):
+                flat_list.extend(self._flatten_builders(item))
+            else:
+                flat_list.append(item)
+        return flat_list

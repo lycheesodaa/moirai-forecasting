@@ -3,9 +3,9 @@ csv_path=./data/demand_data_all_cleaned_numerical.csv
 gpu_id=0
 
 # Pre-evaluation
-python MOIRAI.py \
---csv_path $csv_path \
---gpu_id $gpu_id
+#python MOIRAI.py \
+#--csv_path $csv_path \
+#--gpu_id $gpu_id
 
 # Process dataset
 python prepare_train_data.py \
@@ -21,9 +21,9 @@ python -m cli.train \
   val_data=demand
 
 # Finetuned Evaluation
-python MOIRAI.py \
---csv_path $csv_path \
---gpu_id $gpu_id \
---finetuned 1 \
---yaml_cfg demand \
---run_name $run_name
+#python MOIRAI.py \
+#--csv_path $csv_path \
+#--gpu_id $gpu_id \
+#--finetuned 1 \
+#--yaml_cfg demand \
+#--run_name $run_name

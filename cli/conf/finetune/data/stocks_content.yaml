@@ -1,0 +1,77 @@
+# content stocks
+_target_: uni2ts.data.builder.ConcatDatasetBuilder
+_args_:
+  - _target_: uni2ts.data.builder.simple.SimpleDatasetBuilder
+    dataset: Stocks_${run_name}/CVX
+  - _target_: uni2ts.data.builder.simple.SimpleDatasetBuilder
+    dataset: Stocks_${run_name}/AMAT
+  - _target_: uni2ts.data.builder.simple.SimpleDatasetBuilder
+    dataset: Stocks_${run_name}/ORCL
+  - _target_: uni2ts.data.builder.simple.SimpleDatasetBuilder
+    dataset: Stocks_${run_name}/ABBV
+  - _target_: uni2ts.data.builder.simple.SimpleDatasetBuilder
+    dataset: Stocks_${run_name}/NOW
+  - _target_: uni2ts.data.builder.simple.SimpleDatasetBuilder
+    dataset: Stocks_${run_name}/CAT
+  - _target_: uni2ts.data.builder.simple.SimpleDatasetBuilder
+    dataset: Stocks_${run_name}/GOOG
+  - _target_: uni2ts.data.builder.simple.SimpleDatasetBuilder
+    dataset: Stocks_${run_name}/TMO
+  - _target_: uni2ts.data.builder.simple.SimpleDatasetBuilder
+    dataset: Stocks_${run_name}/AMGN
+  - _target_: uni2ts.data.builder.simple.SimpleDatasetBuilder
+    dataset: Stocks_${run_name}/BX
+  - _target_: uni2ts.data.builder.simple.SimpleDatasetBuilder
+    dataset: Stocks_${run_name}/GS
+  - _target_: uni2ts.data.builder.simple.SimpleDatasetBuilder
+    dataset: Stocks_${run_name}/WFC
+  - _target_: uni2ts.data.builder.simple.SimpleDatasetBuilder
+    dataset: Stocks_${run_name}/AMD
+  - _target_: uni2ts.data.builder.simple.SimpleDatasetBuilder
+    dataset: Stocks_${run_name}/UNP
+  - _target_: uni2ts.data.builder.simple.SimpleDatasetBuilder
+    dataset: Stocks_${run_name}/NKE
+  - _target_: uni2ts.data.builder.simple.SimpleDatasetBuilder
+    dataset: Stocks_${run_name}/V
+  - _target_: uni2ts.data.builder.simple.SimpleDatasetBuilder
+    dataset: Stocks_${run_name}/BKNG
+  - _target_: uni2ts.data.builder.simple.SimpleDatasetBuilder
+    dataset: Stocks_${run_name}/GE
+  - _target_: uni2ts.data.builder.simple.SimpleDatasetBuilder
+    dataset: Stocks_${run_name}/MRK
+  - _target_: uni2ts.data.builder.simple.SimpleDatasetBuilder
+    dataset: Stocks_${run_name}/MU
+  - _target_: uni2ts.data.builder.simple.SimpleDatasetBuilder
+    dataset: Stocks_${run_name}/DHR
+  - _target_: uni2ts.data.builder.simple.SimpleDatasetBuilder
+    dataset: Stocks_${run_name}/CRM
+  - _target_: uni2ts.data.builder.simple.SimpleDatasetBuilder
+    dataset: Stocks_${run_name}/WMT
+  - _target_: uni2ts.data.builder.simple.SimpleDatasetBuilder
+    dataset: Stocks_${run_name}/KO
+  - _target_: uni2ts.data.builder.simple.SimpleDatasetBuilder
+    dataset: Stocks_${run_name}/TXN
+  - _target_: uni2ts.data.builder.simple.SimpleDatasetBuilder
+    dataset: Stocks_${run_name}/DIS
+  - _target_: uni2ts.data.builder.simple.SimpleDatasetBuilder
+    dataset: Stocks_${run_name}/MS
+  - _target_: uni2ts.data.builder.simple.SimpleDatasetBuilder
+    dataset: Stocks_${run_name}/PEP
+  - _target_: uni2ts.data.builder.simple.SimpleDatasetBuilder
+    dataset: Stocks_${run_name}/ACN
+  - _target_: uni2ts.data.builder.simple.SimpleDatasetBuilder
+    dataset: Stocks_${run_name}/TMUS
+  - _target_: uni2ts.data.builder.simple.SimpleDatasetBuilder
+    dataset: Stocks_${run_name}/COST
+  - _target_: uni2ts.data.builder.simple.SimpleDatasetBuilder
+    dataset: Stocks_${run_name}/ABT
+  - _target_: uni2ts.data.builder.simple.SimpleDatasetBuilder
+    dataset: Stocks_${run_name}/NEE
+  - _target_: uni2ts.data.builder.simple.SimpleDatasetBuilder
+    dataset: Stocks_${run_name}/ADBE
+  - _target_: uni2ts.data.builder.simple.SimpleDatasetBuilder
+    dataset: Stocks_${run_name}/CMCSA
+  - _target_: uni2ts.data.builder.simple.SimpleDatasetBuilder
+    dataset: Stocks_${run_name}/PM
+  - _target_: uni2ts.data.builder.simple.SimpleDatasetBuilder
+    dataset: Stocks_${run_name}/QCOM

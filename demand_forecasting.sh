@@ -1,6 +1,6 @@
-run_name=top9
-csv_path=./data/demand_data_all_cleaned_top9.csv
-gpu_id=1
+run_name=aus
+csv_path=./data/demand_data_all_nsw_numerical.csv
+gpu_id=0
 
 # Pre-evaluation
 python MOIRAI.py \
