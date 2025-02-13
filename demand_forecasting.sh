@@ -1,12 +1,18 @@
-run_name=aus
-csv_path=./data/demand_data_all_nsw_numerical.csv
-gpu_id=0
+run_name=sg_daily
+csv_path=./data/demand_data_all_cleaned_numerical_daily.csv
+output_dir=./results/demand/daily/
+yaml_prefix='demand'
+target='actual'
+gpu_id=2
 
 # Pre-evaluation
-python MOIRAI.py \
---csv_path $csv_path \
---desc_prefix _${run_name} \
---gpu_id $gpu_id
+#  python MOIRAI_daily.py \
+#  --csv_path $csv_path \
+#  --run_name $run_name \
+#  --target $target \
+#  --yaml_prefix $yaml_prefix \
+#  --gpu_id $gpu_id \
+#  --output_dir $output_dir
 
 # Process dataset
 python prepare_train_data.py \
@@ -19,13 +25,15 @@ python -m cli.train \
   run_name=$run_name \
   model=moirai_1.0_R_large \
   data=demand_${run_name} \
-  val_data=demand_${run_name}
+  val_data=demand_${run_name} \
+  trainer.devices=[$gpu_id]
 
 # Finetuned Evaluation
-python MOIRAI.py \
+python MOIRAI_daily.py \
 --csv_path $csv_path \
---desc_prefix _${run_name} \
+--run_name $run_name \
+--target $target \
+--yaml_prefix $yaml_prefix \
 --gpu_id $gpu_id \
---finetuned 1 \
---yaml_cfg demand_${run_name} \
---run_name $run_name
+--output_dir $output_dir \
+--finetuned 1

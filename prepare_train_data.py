@@ -14,6 +14,7 @@ load_dotenv()
 parser = argparse.ArgumentParser(description='prepare_train_data')
 parser.add_argument('--dataset_name', type=str, required=True, default='Demand')
 parser.add_argument('--data_path', type=str, required=True, default='data/demand_data_all_cleaned_numerical.csv')
+parser.add_argument('--target', type=str, default='actual')
 parser.add_argument('--has_forecast', type=bool, default=False)
 args = parser.parse_args()
 
@@ -37,16 +38,16 @@ for ds_type in types:
         df = df[:int(len(df) * (train_ratio + val_ratio))]
 
     def example_gen_func() -> Generator[dict[str, Any]]:
-        if 'top0' in args.dataset_name:
+        if len(df.columns) == 1:
             yield {
-                "target": df['actual'].to_numpy(),  # array of shape (time,)
+                "target": df[args.target].to_numpy(),  # array of shape (time,)
                 "start": df.index[0],
                 "freq": pd.infer_freq(df.index),
                 "item_id": f"actual",
             }
         else:
             yield {
-                "target": df['actual'].to_numpy(),  # array of shape (time,)
+                "target": df[args.target].to_numpy(),  # array of shape (time,)
                 "start": df.index[0],
                 "freq": pd.infer_freq(df.index),
                 "item_id": f"actual",
@@ -54,7 +55,7 @@ for ds_type in types:
             }
 
 
-    if 'top0' in args.dataset_name:
+    if len(df.columns) == 1:
         features = Features(
             dict(
                 target=Sequence(Value("float32")),

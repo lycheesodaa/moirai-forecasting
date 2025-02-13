@@ -37,7 +37,7 @@ PSZ = "auto"  # patch size: choose from {"auto", 8, 16, 32, 64, 128}
 BSZ = 32 # batch size: any positive integer
 
 # setting up the covariates for model/data configuration
-base_covars = ['open', 'high', 'low', 'adj close', 'volume']
+base_covars = ['open', 'high', 'low', 'close', 'volume']
 num_features_map = {
     'sentiment': base_covars + ['positive', 'negative', 'neutral'],
     'emotion': base_covars + ['sadness', 'neutral_emotion', 'fear', 'anger', 'disgust', 'surprise', 'joy'],
@@ -59,11 +59,11 @@ def get_test_data(csv_path, pred_len):
         print('Casting to B freq...')
         df = df.asfreq('B')
 
-    test_ratio = 0.15
+    test_ratio = 0.2
     total_len = len(df)
     test_len = int(test_ratio * total_len)
 
-    ds = PandasDataset(df, target='close', past_feat_dynamic_real=past_dynamic_real_cols, freq='B')
+    ds = PandasDataset(df, target='adj close', past_feat_dynamic_real=past_dynamic_real_cols, freq='B')
 
     # dummy split the last 3 rows to align with the rest of the results
     dummy_split, _ = split(
@@ -82,7 +82,6 @@ def get_test_data(csv_path, pred_len):
     )
 
 
-# TODO normalize dataset values during training?
 # evaluation
 for PDT in PDT_LIST:
     print(f"Evaluating for PDT={PDT}...")

@@ -29,8 +29,7 @@ args = parser.parse_args()
 output_dir = Path(args.output_dir)
 output_dir.mkdir(parents=True, exist_ok=True)
 
-PDT_LIST = [1, 12, 24, 48, 72, 168, 336]  # hourly demand
-# PDT_LIST = [1, 7, 14, 30, 60, 178, 356]  # daily demand
+PDT_LIST = [1, 7, 14, 30, 60, 178, 356]  # daily demand
 # PDT_LIST = [1, 2, 3, 4, 5, 7, 14, 21, 28, 30, 35, 40, 45, 50, 55, 60, 70, 80, 90]  # daily carbon
 
 SIZE = "large"  # model size: choose from {'small', 'base', 'large'}

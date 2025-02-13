@@ -32,9 +32,9 @@ if emotion_type not in num_features_map.keys():
 for i, file in enumerate(os.listdir(Path(args.folder_path))):
     stock_name = (Path(args.folder_path) / file).stem
 
-    train_ratio = 0.7
-    val_ratio = 0.15
-    test_ratio = 0.15
+    train_ratio = 0.6
+    val_ratio = 0.2
+    test_ratio = 0.2
 
     for ds_type in types:
         dataset = args.dataset_name

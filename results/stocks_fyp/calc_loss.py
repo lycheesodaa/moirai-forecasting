@@ -59,7 +59,37 @@ for run_dir in runs:
 
         results[f'pl{pred_len}_mean'][run_name] = calculate_mape(temp_df['true'], temp_df['pred_mean'])
         results[f'pl{pred_len}_median'][run_name] = calculate_mape(temp_df['true'], temp_df['pred_median'])
+#
+#         # finetuned
+#         try:
+#             finetuned_name = run_name + '_finetuned'
+#             temp_df = pd.read_csv(full_run_dir / f'MOIRAI_pl{pred_len}_finetuned.csv')
+#             temp_df.drop(columns=['var', 'q10', 'q50', 'q90'], inplace=True)
+#             temp_df.dropna(inplace=True)
+#
+#             results[f'pl{pred_len}_mean'][finetuned_name] = calculate_mape(temp_df['true'], temp_df['pred_mean'])
+#             # results[f'pl{pred_len}_median'][finetuned_name] = calculate_mape(temp_df['true'], temp_df['pred_median'])
+#         except Exception as e:
+#             print(f'{full_run_dir}/MOIRAI_pl{pred_len}_finetuned.csv not found')
+#
+#         # lstm
+#         lstm_name = run_name + '_lstm'
+#         temp_df = pd.read_csv(full_run_dir / f'BiLSTM_pl{pred_len}_combined_training.csv')
+#         temp_df.dropna(inplace=True)
+#
+#         results[f'pl{pred_len}_mean'][lstm_name] = calculate_mape(temp_df['true'], temp_df['pred_mean'])
+#
+results = pd.DataFrame(results)
+#
+# lstm_mask = results.index.str.contains('_lstm')
+# finetuned_mask = results.index.str.contains('_finetuned')
+#
+# # Split the dataframe into LSTM and non-LSTM parts
+# lstm_rows = results[lstm_mask]
+# ft_rows = results[finetuned_mask]
+# zs_rows = results[~lstm_mask & ~finetuned_mask]
+#
+# # Concatenate the parts in desired order
+# results = pd.concat([zs_rows, ft_rows, lstm_rows])
 
-        # TODO fine-tuned
-
-pd.DataFrame(results).to_csv('mape_losses.csv')
+results.to_csv('mape_losses.csv')

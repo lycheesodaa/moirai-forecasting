@@ -12,7 +12,7 @@ from datasets import Features, Sequence, Value
 load_dotenv()
 
 # folder_path = 'data/stocks/candle_w_emotion/day_average_content'
-folder_path = 'data/stocks/candle_w_emotion/day_average_headlines'
+folder_path = '../../data/stocks/candle_w_emotion/day_average_headlines'
 
 lengths = []
 # Loop over all the stocks and concatenate them into one dataframe with the label column `stock`
