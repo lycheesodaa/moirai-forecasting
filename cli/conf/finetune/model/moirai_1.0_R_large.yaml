@@ -26,6 +26,7 @@ max_dim: 128
 loss_func:
   _target_: uni2ts.loss.packed.PackedNLLLoss
 val_metric:
+  - _target_: uni2ts.loss.packed.PackedMAPELoss
   - _target_: uni2ts.loss.packed.PackedMSELoss
 lr: 1e-3
 weight_decay: 1e-1

@@ -1,10 +1,69 @@
+from typing import Union, Optional, List
+
 import pandas as pd
 import numpy as np
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 import re
 
 import pandas.errors
+
+
+
+def create_timestamps(
+    last_timestamp: Union[datetime, pd.Timestamp],
+    freq: Optional[Union[int, float, timedelta, pd.Timedelta, str]] = None,
+    time_sequence: Optional[Union[List[int], List[float], List[datetime], List[pd.Timestamp]]] = None,
+    periods: int = 1,
+) -> List[pd.Timestamp]:
+    """Simple utility to create a list of timestamps based on start, delta and number of periods
+
+    Args:
+        last_timestamp (Union[datetime.datetime, pd.Timestamp]): The last observed timestamp, new timestamps will be created
+            after this timestamp.
+        freq (Optional[Union[int, float, datetime.timedelta, pd.Timedelta, str]], optional): The frequency at which timestamps
+            should be generated. Defaults to None.
+        time_sequence (Optional[Union[List[int], List[float], List[datetime.datetime], List[pd.Timestamp]]], optional): A time sequence
+            from which the frequency can be inferred. Defaults to None.
+        periods (int, optional): The number of timestamps to generate. Defaults to 1.
+
+    Raises:
+        ValueError: If the frequency cannot be parsed from freq or inferred from time_sequence
+
+    Returns:
+        List[pd.Timestamp]: List of timestamps
+    """
+
+    if freq is None and time_sequence is None:
+        raise ValueError("Neither `freq` nor `time_sequence` provided, cannot determine frequency.")
+
+    if freq is None:
+        # to do: make more robust
+        freq = time_sequence[-1] - time_sequence[-2]
+
+    # more complex logic is required to support all edge cases
+    if isinstance(freq, (pd.Timedelta, timedelta, str)):
+        try:
+            # try date range directly
+            return pd.date_range(
+                last_timestamp,
+                freq=freq,
+                periods=periods + 1,
+            ).tolist()[1:]
+        except ValueError as e:
+            # if it fails, we can try to compute a timedelta from the provided string
+            if isinstance(freq, str):
+                freq = pd._libs.tslibs.timedeltas.Timedelta(freq)
+                return pd.date_range(
+                    last_timestamp,
+                    freq=freq,
+                    periods=periods + 1,
+                ).tolist()[1:]
+            else:
+                raise e
+    else:
+        # numerical timestamp column
+        return [last_timestamp + i * freq for i in range(1, periods + 1)]
 
 
 def calculate_mape(y_true: list, y_pred: list) -> float:
@@ -45,6 +104,7 @@ def log_into_csv(
     bsz: int = 16,
     log_file_name: str = 'demand',
     pred_col_name: str = 'actual',
+    function: str = 'mape',
 ):
     log_file = f'results/{log_file_name}_runs.csv'
 
@@ -65,6 +125,11 @@ def log_into_csv(
         }, index=[0])
         df.to_csv(log_file)
 
+    if function == '80% range':
+        score = np.mean(results_df['p90'] - results_df['p10'])
+    elif function == 'mape':
+        score = calculate_mape(results_df['true'], results_df[pred_col_name])
+
     curr_run = pd.DataFrame({
         'timestamp': datetime.now(),
         'name': name,
@@ -75,8 +140,8 @@ def log_into_csv(
         'n_features': n_features,
         'lr': lr,
         'bsz': bsz,
-        'score_type': 'mape',
-        'score': calculate_mape(results_df['true'], results_df[pred_col_name])
+        'score_type': function,
+        'score': score
     }, index=[0])
 
     df = pd.read_csv(log_file, index_col=0)

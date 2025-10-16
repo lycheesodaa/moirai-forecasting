@@ -1,21 +1,21 @@
 for run_name in top0 featsel all
 do
   if [ "$run_name" = "all" ]; then
-    csv_path=./data/demand_data_all_cleaned.csv
-    output_dir=./results/demand/
-    run_name="sg"
+    csv_path=./data/demand_data_all_nsw_daily.csv
+    output_dir=./results/demand_aus/daily/
+    run_name="aus_daily"
   else
-    csv_path=./data/demand_data_all_cleaned_${run_name}.csv
-    output_dir=./results/demand/${run_name}/
-    run_name="sg_${run_name}"
+    csv_path=./data/demand_data_all_nsw_daily_${run_name}.csv
+    output_dir=./results/demand_aus/daily/${run_name}/
+    run_name="aus_daily_${run_name}"
   fi
   yaml_prefix='demand'
   target='actual'
   gpu_id=0
   echo "Running ${run_name}..."
 
- # Pre-evaluation
- python MOIRAI.py \
+  # Pre-evaluation
+ python MOIRAI_demand_daily.py \
  --csv_path $csv_path \
  --run_name $run_name \
  --target $target \
@@ -38,7 +38,7 @@ do
     trainer.devices=[$gpu_id]
 
   # Finetuned Evaluation
-  python MOIRAI.py \
+  python MOIRAI_demand_daily.py \
   --csv_path $csv_path \
   --run_name $run_name \
   --target $target \

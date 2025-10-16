@@ -1,8 +1,9 @@
-for run_name in top0 top5 top9 aus
+for run_name in top0 featsel all
 do
-  if [ "$run_name" = "aus" ]; then
-    csv_path=./data/demand_data_all_nsw_numerical.csv
+  if [ "$run_name" = "all" ]; then
+    csv_path=./data/demand_data_all_nsw.csv
     output_dir=./results/demand_aus/
+    run_name="aus"
   else
     csv_path=./data/demand_data_all_nsw_${run_name}.csv
     output_dir=./results/demand_aus/${run_name}/
@@ -10,17 +11,17 @@ do
   fi
   yaml_prefix='demand'
   target='actual'
-  gpu_id=1
+  gpu_id=0
   echo "Running ${run_name}..."
 
   # Pre-evaluation
-#  python MOIRAI.py \
-#  --csv_path $csv_path \
-#  --run_name $run_name \
-#  --target $target \
-#  --yaml_prefix $yaml_prefix \
-#  --gpu_id $gpu_id \
-#  --output_dir $output_dir
+ python MOIRAI_demand_hourly.py \
+ --csv_path $csv_path \
+ --run_name $run_name \
+ --target $target \
+ --yaml_prefix $yaml_prefix \
+ --gpu_id $gpu_id \
+ --output_dir $output_dir
 
   # Process dataset
   python prepare_train_data.py \
@@ -31,13 +32,13 @@ do
   python -m cli.train \
     -cp conf/finetune \
     run_name=$run_name \
-    model=moirai_1.0_R_large \
+    model=moirai_2.0_R_small \
     data=demand_${run_name} \
     val_data=demand_${run_name} \
     trainer.devices=[$gpu_id]
 
   # Finetuned Evaluation
-  python MOIRAI.py \
+  python MOIRAI_demand_hourly.py \
   --csv_path $csv_path \
   --run_name $run_name \
   --target $target \

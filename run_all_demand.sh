@@ -1,0 +1,4 @@
+sh demand_forecasting_sg.sh
+sh demand_forecasting_sg_daily.sh
+sh demand_forecasting_aus.sh
+sh demand_forecasting_aus_daily.sh

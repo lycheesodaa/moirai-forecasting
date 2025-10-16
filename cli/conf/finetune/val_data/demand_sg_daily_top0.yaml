@@ -1,9 +1,9 @@
 _target_: uni2ts.data.builder.ConcatDatasetBuilder
 _args_:
   _target_: uni2ts.data.builder.simple.generate_eval_builders
-  dataset: Demand_sg_daily_eval
+  dataset: Demand_sg_daily_top0_eval
   offset: 1534
   eval_length: 511
-  prediction_lengths: [1, 7, 14, 30, 60, 178, 356]
+  prediction_lengths: [1, 7, 14, 30, 60, 180, 365]
   context_lengths: [512]
   patch_sizes: [32, 64]

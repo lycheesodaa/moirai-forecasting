@@ -1,9 +1,9 @@
 _target_: uni2ts.data.builder.ConcatDatasetBuilder
 _args_:
   _target_: uni2ts.data.builder.simple.generate_eval_builders
-  dataset: Demand_aus_eval
-  offset: 47332
-  eval_length: 15777
-  prediction_lengths: [1, 12, 24, 48, 72, 168, 336]
-  context_lengths: [512]
+  dataset: Demand_sg_daily_long_eval
+  offset: 2221
+  eval_length: 740
+  prediction_lengths: [720]
+  context_lengths: [1024, 1536]
   patch_sizes: [32, 64]

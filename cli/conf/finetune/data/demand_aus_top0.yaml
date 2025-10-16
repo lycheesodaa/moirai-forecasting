@@ -1,3 +1,3 @@
 _target_: uni2ts.data.builder.simple.SimpleDatasetBuilder
-dataset: Demand_AUS
+dataset: Demand_aus_top0
 weight: 1000
