@@ -28,9 +28,13 @@ loss_func:
 val_metric:
   - _target_: uni2ts.loss.packed.PackedMAPELoss
   - _target_: uni2ts.loss.packed.PackedMSELoss
-lr: 1e-3
+lr: 5e-7
 weight_decay: 1e-1
 beta1: 0.9
 beta2: 0.98
-num_training_steps: ${mul:${trainer.max_epochs},${train_dataloader.num_batches_per_epoch}}
+num_training_steps: null
 num_warmup_steps: 0
+patch_size: null
+context_length: null
+prediction_length: null
+finetune_pattern: full

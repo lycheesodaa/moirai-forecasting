@@ -126,6 +126,10 @@ def main(cfg: DictConfig):
 
     model: L.LightningModule = instantiate(cfg.model, _convert_="all")
 
+    # For fine-tuning wo using sequence packing, create 'sample_id' for each sample by transformation.
+    if "collate_fn" not in cfg.train_dataloader:
+        model.seq_fields = model.seq_fields + ("sample_id",)
+
     if cfg.compile:
         model.module.compile(mode=cfg.compile)
     trainer: L.Trainer = instantiate(cfg.trainer)
@@ -141,11 +145,43 @@ def main(cfg: DictConfig):
         else None
     )
     L.seed_everything(cfg.seed + trainer.logger.version, workers=True)
+
+    # Print the training info during fine-tuning
+    if "collate_fn" not in cfg.train_dataloader:
+        print(
+            "Number of windows in finetune: ",
+            train_dataset.dataset_weight * train_dataset.num_ts,
+        )
+        print("Batch size for finetune: ", cfg.train_dataloader.batch_size)
+        print(
+            "Number of batches in a epoch: ",
+            train_dataset.dataset_weight
+            * train_dataset.num_ts
+            // cfg.train_dataloader.batch_size,
+        )
+
+        print(
+            "Number of windows in val: ",
+            val_dataset.dataset_weight * val_dataset.num_ts,
+        )
+        print("Batch size for val: ", cfg.val_dataloader.batch_size)
+        print(
+            "Number of batches in a epoch: ",
+            val_dataset.dataset_weight
+            * val_dataset.num_ts
+            // cfg.val_dataloader.batch_size,
+        )
+
+    # Validate before training, check the performance of original pretrained model.
+    # trainer.validate(model, datamodule=DataModule(cfg, train_dataset, val_dataset))
+
     trainer.fit(
         model,
         datamodule=DataModule(cfg, train_dataset, val_dataset),
         ckpt_path=cfg.ckpt_path,
     )
+
+    print("Finished training!")
 
 
 if __name__ == "__main__":

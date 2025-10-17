@@ -486,7 +486,9 @@ class MoiraiForecast(L.LightningModule):
             "max",
             patch=patch_size,
         )
-        past_seq_id = torch.clamp(past_seq_id.cumsum(dim=-1) - 1, min=0)
+        past_seq_id = torch.clamp(
+            past_seq_id.cummax(dim=-1).values.cumsum(dim=-1) - 1, min=0
+        )
         batch_shape = " ".join(map(str, past_observed_target.shape[:-2]))
         future_seq_id = (
             repeat(
