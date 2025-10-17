@@ -1,4 +1,5 @@
 from pathlib import Path
+from types import NoneType
 
 import torch
 import argparse
@@ -14,6 +15,7 @@ import os
 
 from uni2ts.eval_util.plot import plot_single, plot_next_multi
 from uni2ts.model.moirai import MoiraiForecast, MoiraiModule
+from uni2ts.model.moirai2.module import Moirai2Module
 from util import log_into_csv
 
 parser = argparse.ArgumentParser(description='MOIRAI')
@@ -24,6 +26,7 @@ parser.add_argument('--yaml_prefix', type=str)
 parser.add_argument('--gpu_id', type=int, default=1)
 parser.add_argument('--output_dir', type=str)
 parser.add_argument('--finetuned', type=bool, default=False)
+parser.add_argument("--moirai_ver", type=str, default=None)
 args = parser.parse_args()
 
 output_dir = Path(args.output_dir)
@@ -32,7 +35,7 @@ output_dir.mkdir(parents=True, exist_ok=True)
 PDT_LIST = [1, 7, 14, 30, 60, 180, 365]  # daily demand
 
 SIZE = "small"  # model size: choose from {'small', 'base', 'large'}
-MOIRAI_VER = "moirai_2.0_R_" + SIZE
+MOIRAI_VER = "moirai_1.1_R_" + SIZE if args.moirai_ver is None else args.moirai_ver
 CTX = 512  # context length: any positive integer
 PSZ = "auto"  # patch size: choose from {"auto", 8, 16, 32, 64, 128}
 BSZ = 16  # batch size: any positive integer
@@ -79,7 +82,7 @@ _, test_template = split(
 
 # evaluation
 for PDT in PDT_LIST:
-    print(f"Evaluating for PDT={PDT}...")
+    print(f"Evaluating for {MOIRAI_VER} PDT={PDT}...")
     # Construct rolling window evaluation
     test_data = test_template.generate_instances(
         prediction_length=PDT,  # number of time steps for each prediction
@@ -97,28 +100,48 @@ for PDT in PDT_LIST:
         print(f'Running model from {ft_filepath}')
 
         # load from FT'd checkpoint
-        model = MoiraiForecast.load_from_checkpoint(
-            prediction_length=PDT,
-            context_length=CTX,
-            patch_size=PSZ,
-            num_samples=100,
-            target_dim=1,
-            feat_dynamic_real_dim=test_ds.num_feat_dynamic_real,
-            past_feat_dynamic_real_dim=test_ds.num_past_feat_dynamic_real,
-            checkpoint_path=ft_filepath
-        )
+        if '2.0' in MOIRAI_VER:
+            model = MoiraiForecast.load_from_checkpoint(
+                prediction_length=PDT,
+                context_length=CTX,
+                target_dim=1,
+                feat_dynamic_real_dim=test_ds.num_feat_dynamic_real,
+                past_feat_dynamic_real_dim=test_ds.num_past_feat_dynamic_real,
+                checkpoint_path=ft_filepath
+            )
+        else:
+            model = MoiraiForecast.load_from_checkpoint(
+                prediction_length=PDT,
+                context_length=CTX,
+                patch_size=PSZ,
+                num_samples=100,
+                target_dim=1,
+                feat_dynamic_real_dim=test_ds.num_feat_dynamic_real,
+                past_feat_dynamic_real_dim=test_ds.num_past_feat_dynamic_real,
+                checkpoint_path=ft_filepath
+            )
     else:
         # Prepare pre-trained model by downloading model weights from huggingface hub
-        model = MoiraiForecast(
-            module=MoiraiModule.from_pretrained(f"Salesforce/{MOIRAI_VER}"),
-            prediction_length=PDT,
-            context_length=CTX,
-            patch_size=PSZ,
-            num_samples=100,
-            target_dim=1,
-            feat_dynamic_real_dim=test_ds.num_feat_dynamic_real,
-            past_feat_dynamic_real_dim=test_ds.num_past_feat_dynamic_real,
-        )
+        if '2.0' in MOIRAI_VER:
+            model = MoiraiForecast(
+                module=Moirai2Module.from_pretrained(f"Salesforce/{MOIRAI_VER}"),
+                prediction_length=PDT,
+                context_length=CTX,
+                target_dim=1,
+                feat_dynamic_real_dim=test_ds.num_feat_dynamic_real,
+                past_feat_dynamic_real_dim=test_ds.num_past_feat_dynamic_real,
+            )
+        else:
+            model = MoiraiForecast(
+                module=MoiraiModule.from_pretrained(f"Salesforce/{MOIRAI_VER}"),
+                prediction_length=PDT,
+                context_length=CTX,
+                patch_size=PSZ,
+                num_samples=100,
+                target_dim=1,
+                feat_dynamic_real_dim=test_ds.num_feat_dynamic_real,
+                past_feat_dynamic_real_dim=test_ds.num_past_feat_dynamic_real,
+            )
 
     predictor = model.create_predictor(batch_size=BSZ, device=f'cuda:{args.gpu_id}')
     forecasts = predictor.predict(test_data.input)

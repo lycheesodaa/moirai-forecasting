@@ -108,13 +108,15 @@ class DataModule(L.LightningDataModule):
         )
 
     @property
-    def train_num_batches_per_epoch(self) -> int | None:
-        if self.cfg.train_dataloader.num_batches_per_epoch:
+    def train_num_batches_per_epoch(self) -> int:
+        if self.cfg.train_dataloader.num_batches_per_epoch is not None:  # Pretraining
             return (
                 self.cfg.train_dataloader.num_batches_per_epoch
                 * self.trainer.accumulate_grad_batches
             )
-        return None
+
+        else:  # Fine-tuning
+            return None
 
 
 @hydra.main(version_base="1.3", config_name="default.yaml")
@@ -133,7 +135,12 @@ def main(cfg: DictConfig):
     if cfg.compile:
         model.module.compile(mode=cfg.compile)
     trainer: L.Trainer = instantiate(cfg.trainer)
-    train_dataset: Dataset = instantiate(cfg.data, _convert_="all").load_dataset(
+
+    # The '=' in the checkpoint name prevents direct loading with Hydra. Replace it with '_'."
+    trainer.callbacks[-1].CHECKPOINT_EQUALS_CHAR = "_"
+    trainer.callbacks[-2].CHECKPOINT_EQUALS_CHAR = "_"
+
+    train_dataset: Dataset = instantiate(cfg.data).load_dataset(
         model.train_transform_map
     )
     val_dataset: Optional[Dataset | list[Dataset]] = (
