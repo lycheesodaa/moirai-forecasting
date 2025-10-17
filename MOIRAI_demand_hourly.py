@@ -14,7 +14,7 @@ import os
 
 from uni2ts.eval_util.plot import plot_single, plot_next_multi
 from uni2ts.model.moirai import MoiraiForecast, MoiraiModule
-from uni2ts.model.moirai2.module import Moirai2Module
+from uni2ts.model.moirai2 import Moirai2Module, Moirai2Forecast
 from util import log_into_csv
 
 parser = argparse.ArgumentParser(description='MOIRAI')
@@ -99,7 +99,7 @@ for PDT in PDT_LIST:
 
         # load from FT'd checkpoint
         if '2.0' in MOIRAI_VER:
-            model = MoiraiForecast.load_from_checkpoint(
+            model = Moirai2Forecast.load_from_checkpoint(
                 prediction_length=PDT,
                 context_length=CTX,
                 target_dim=1,
@@ -121,7 +121,7 @@ for PDT in PDT_LIST:
     else:
         # Prepare pre-trained model by downloading model weights from huggingface hub
         if '2.0' in MOIRAI_VER:
-            model = MoiraiForecast(
+            model = Moirai2Forecast(
                 module=Moirai2Module.from_pretrained(f"Salesforce/{MOIRAI_VER}"),
                 prediction_length=PDT,
                 context_length=CTX,
