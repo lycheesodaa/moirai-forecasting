@@ -1,3 +1,7 @@
-_target_: uni2ts.data.builder.simple.SimpleDatasetBuilder
-dataset: Demand_aus_top0_daily
-weight: 1000
+_target_: uni2ts.data.builder.simple.generate_finetune_builder
+dataset: Demand_aus_daily_top0
+train_length: 1972
+prediction_length: 365
+context_length: 512
+patch_size: 32
+mode: M

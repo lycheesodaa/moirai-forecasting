@@ -79,4 +79,4 @@ for ds_type in types:
 
     hf_dataset = datasets.Dataset.from_generator(example_gen_func, features=features).with_format("numpy")
     hf_dataset.info.dataset_name = dataset
-    hf_dataset.save_to_disk(save_path / dataset)
+    hf_dataset.save_to_disk(save_path / 'lsf' / 'wide_multivariate' / dataset)

@@ -1,3 +1,7 @@
-_target_: uni2ts.data.builder.simple.SimpleDatasetBuilder
-dataset: Demand
-weight: 1000
+_target_: uni2ts.data.builder.simple.generate_finetune_builder
+dataset: Demand_sg
+train_length: 36821
+prediction_length: 336
+context_length: 512
+patch_size: 32
+mode: M

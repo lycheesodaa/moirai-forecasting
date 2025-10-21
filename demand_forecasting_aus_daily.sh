@@ -8,6 +8,7 @@ do
     run_name="aus_daily_${run_name}"
   fi
   output_dir=./results/demand_aus/daily/${run_name}/
+  moirai_ver=moirai_1.1_R_small
   yaml_prefix='demand'
   target='actual'
   gpu_id=0
@@ -21,7 +22,7 @@ do
  --yaml_prefix $yaml_prefix \
  --gpu_id $gpu_id \
  --output_dir $output_dir \
- --moirai_ver moirai-1.1-R-small
+ --moirai_ver $moirai_ver
 
   # Process dataset
   python prepare_train_data.py \
@@ -32,11 +33,14 @@ do
   python -m cli.train \
     -cp conf/finetune \
     run_name=$run_name \
-    model=moirai_1.1_R_small \
+    exp_name=${run_name}_${moirai_ver} \
+    model=$moirai_ver \
+    model.patch_size=32 \
+    model.context_length=512 \
+    model.prediction_length=365 \
     data=demand_${run_name} \
     val_data=demand_${run_name} \
-    trainer.devices=[$gpu_id] \
-    model.lr=1e-7 
+    trainer.devices=[$gpu_id]
 
   # Finetuned Evaluation
   python MOIRAI_demand_daily.py \

@@ -34,7 +34,7 @@ output_dir.mkdir(parents=True, exist_ok=True)
 PDT_LIST = [1, 12, 24, 48, 72, 168, 336]  # hourly demand
 
 SIZE = "small"  # model size: choose from {'small', 'base', 'large'}
-MOIRAI_VER = "moirai_1.1_R_" + SIZE if args.moirai_ver is None else args.moirai_ver
+MOIRAI_VER = "moirai_1.1_R_" + SIZE if args.moirai_ver is None else args.moirai_ver.replace("-", "_")
 CTX = 512  # context length: any positive integer
 PSZ = "auto"  # patch size: choose from {"auto", 8, 16, 32, 64, 128}
 BSZ = 16  # batch size: any positive integer

@@ -492,6 +492,10 @@ def generate_eval_builders(
     patch_sizes: list[int],
     storage_path: Path = env.CUSTOM_DATA_PATH,
 ) -> list[SimpleEvalDatasetBuilder]:
+    """
+    By default, 'distance' is set to prediction length for rolling evaluation.
+    Offer specific 'distance' to decrease the number of validation samples and to reduce computational cost.
+    """
     return [
         SimpleEvalDatasetBuilder(
             dataset=dataset,
@@ -501,6 +505,7 @@ def generate_eval_builders(
             prediction_length=pred,
             context_length=ctx,
             patch_size=psz,
+            mode='M',  # default set to M for now
             storage_path=storage_path,
         )
         for pred, ctx, psz in product(prediction_lengths, context_lengths, patch_sizes)
